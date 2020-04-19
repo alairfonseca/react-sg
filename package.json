@@ -1,0 +1,36 @@
+{
+  "name": "rsg",
+  "version": "1.0.0",
+  "author": "Alair Fonseca",
+  "main": "index.ts",
+  "scripts": {
+    "build": "tsc -p .",
+    "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node'"
+  },
+  "dependencies": {
+    "chalk": "^4.0.0",
+    "clear": "^0.1.0",
+    "commander": "^5.0.0",
+    "figlet": "^1.3.0",
+    "fs-extra": "^9.0.0",
+    "global": "^4.4.0",
+    "path": "^0.12.7",
+    "tslib": "^1.11.1",
+    "yargs": "^15.3.1"
+  },
+  "devDependencies": {
+    "@types/clear": "^0.1.0",
+    "@types/figlet": "^1.2.0",
+    "@types/fs-extra": "^8.1.0",
+    "@types/inquirer": "^6.5.0",
+    "@types/node": "^13.13.0",
+    "@types/yargs": "^15.0.4",
+    "nodemon": "^2.0.3",
+    "ts-node": "^8.8.2",
+    "typedoc": "^0.17.4",
+    "typescript": "^3.8.3"
+  },
+  "bin": {
+    "rsg": "./bin/rsg.js"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["es6", "es2015", "dom"],
+    "module": "commonjs",
+    "types": ["node", "clear", "inquirer", "figlet", "fs-extra"],
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "importHelpers": true,
+    "outDir": "dist"
+  },
+  "exclude": ["node_modules", "dist", "**/templates/**"]
+}
