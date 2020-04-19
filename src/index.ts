@@ -1,6 +1,6 @@
 import yargs from 'yargs';
 import ComponentFactory from './ComponentFactory';
-import { ComponentTypes } from './FileFactory/types';
+import { ComponentTypes } from './ComponentFactory/types';
 
 const options = yargs.usage('g component <component name> or g container <container name>')
     .command('g [componentType] [componentName] [path]', 'Create a new component or container', (yargs) => {

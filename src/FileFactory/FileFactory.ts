@@ -1,32 +1,22 @@
 import fs from 'fs-extra';
 
-import { ComponentTypes } from './types';
-import { defaultPaths } from './constants';
+import { ComponentTypes } from '../ComponentFactory/types';
 
 export default class FileFactory {
-    path?: string;
-    fileName: string;
-    fileContent: string;
     componentType: ComponentTypes
     
-    constructor(fileName: string, fileContent: string, componentType: ComponentTypes, path?: string) {
-        this.path = path;
-        this.fileName = fileName;
-        this.fileContent = fileContent;
+    constructor(componentType: ComponentTypes, path?: string) {
         this.componentType = componentType;
     }
 
-    public createFile() {
+    public createFile(fileName: string, fileContent: string, extension: string, path: string) {
         try {
-            if (!this.path) {
-                this.path = defaultPaths[this.componentType];
-            }
-
-            this.createFolder(this.path);
+            this.createFolder(path);
     
-            fs.writeFileSync(`${this.path}/${this.fileName}.tsx`, this.fileContent, 'utf-8');
+            console.log(`criando o arquivo - ${path}/${fileName}.${extension}`);
+            fs.writeFileSync(`${path}/${fileName}.${extension}`, fileContent, 'utf-8');
         } catch (error) {
-            console.log(`Erro ao criar o arquivo ${this.fileName} \n ${error}`);
+            console.log(`Erro ao criar o arquivo ${fileName} \n ${error}`);
         }
     }
 

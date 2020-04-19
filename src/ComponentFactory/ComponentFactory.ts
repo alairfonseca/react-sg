@@ -2,30 +2,39 @@ import chalk from 'chalk';
 import FileFactory from '../FileFactory';
 import BaseComponent from '../templates/BaseComponent';
 
-import { ComponentTypes } from '../FileFactory/types';
+import { defaultPaths } from './constants';
+import { ComponentTypes } from './types';
 
 export default class ComponentFactory {
     componentName: string;
     componentType: ComponentTypes;
     path: string;
     baseComponent: BaseComponent;
+    fileFactory: FileFactory;
 
     constructor(componentName: string, componentType: ComponentTypes, path: string) {
         this.componentName = componentName;
         this.componentType = componentType;
         this.path = path;
         this.baseComponent = new BaseComponent(this.componentName);
+        this.fileFactory = new FileFactory(this.componentType as ComponentTypes, path);
     }
 
     public buildComponent() {
         try {
             console.log(chalk.blue(`Creating the ${this.componentType} ${this.componentName}...`));
 
-            const fileContent = this.buildFileContent();
-            
-            const fileFactory = new FileFactory(this.componentName, fileContent, this.componentType as ComponentTypes, this.path);
-    
-            fileFactory.createFile();
+            let path = '';
+
+            if (!this.path) {
+                path = defaultPaths[this.componentType];
+            } else {
+                path = `${this.path}/${this.componentName}`;
+            }
+
+            this.buildTestFiles(path);
+
+            this.buildComponentFiles(path);
 
             console.log(chalk.green(`Component ${this.componentName} created successfully`));
         } catch(error) {
@@ -33,7 +42,31 @@ export default class ComponentFactory {
         }
     }
 
+    private buildTestFiles(path: string) {
+        const testPath = `${path}/__tests__`;
+
+        const content = this.buildTestContent();
+        
+        this.fileFactory.createFile(this.componentName, content, 'test.tsx', testPath);
+    }
+
+    private buildTestContent() {
+        return this.baseComponent.buildTestTemplate();
+    }
+
+    private buildComponentFiles(path: string) {
+        const componentContent = this.buildFileContent();
+        const indexContent = this.buildIndexContent();
+
+        this.fileFactory.createFile(this.componentName, componentContent, 'tsx', path);
+        this.fileFactory.createFile('index', indexContent, 'ts', path);
+    }
+
     private buildFileContent() {
         return this.baseComponent.buildBaseTemplate();
+    }
+
+    private buildIndexContent() {
+        return this.baseComponent.buildIndexTemplate();
     }
 }
