@@ -29,8 +29,10 @@ export default class ComponentFactory {
             if (!this.path) {
                 path = defaultPaths[this.componentType];
             } else {
-                path = `${this.path}/${this.componentName}`;
+                path = this.path;
             }
+
+            path = `${path}/${this.componentName}`;
 
             this.buildTestFiles(path);
 
