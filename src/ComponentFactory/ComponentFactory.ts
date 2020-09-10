@@ -48,24 +48,24 @@ export default class ComponentFactory {
         const testPath = `${path}/__tests__`;
 
         const content = this.buildTestContent();
-        
+
         this.fileFactory.createFile(this.componentName, content, 'test.tsx', testPath);
     }
 
     private buildTestContent() {
-        return this.baseComponent.buildTestTemplate();
+        return this.baseComponent.buildFile('test');
     }
 
     private buildComponentFiles(path: string) {
-        const componentContent = this.buildFileContent();
+        const componentContent = this.buildComponentContent();
         const indexContent = this.buildIndexContent();
 
         this.fileFactory.createFile(this.componentName, componentContent, 'tsx', path);
         this.fileFactory.createFile('index', indexContent, 'ts', path);
     }
 
-    private buildFileContent() {
-        return this.baseComponent.buildBaseTemplate();
+    private buildComponentContent() {
+        return this.baseComponent.buildFile('component');
     }
 
     private buildIndexContent() {

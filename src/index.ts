@@ -27,24 +27,22 @@ const options = yargs.usage('g component <component name> or g container <contai
 .argv;
 
 
-const run = () => {
+const run = async () => {
     try {
-        console.log(options);
-
         if (options._[0] == 'new') {
             console.log('Creating a new React project...');
         } else if (options._[0] == 'g') {
-            buildComponent(options);
+            await buildComponent(options);
         }
     } catch(error) {
         console.log(`Erro ${error}`);
     }
 }
 
-const buildComponent = ({ componentName, componentType, path } = options) => {
+const buildComponent = async ({ componentName, componentType, path } = options) => {
     const componentFactory = new ComponentFactory(componentName, componentType as ComponentTypes, path);
 
-    componentFactory.buildComponent();
+    await componentFactory.buildComponent();
 }
 
 run();
