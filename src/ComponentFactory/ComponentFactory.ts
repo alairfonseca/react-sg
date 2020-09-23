@@ -4,6 +4,7 @@ import BaseComponent from '../templates/BaseComponent';
 
 import { defaultPaths } from './constants';
 import { ComponentTypes } from './types';
+import { capitalize } from '../utils';
 
 export default class ComponentFactory {
     componentName: string;
@@ -32,13 +33,13 @@ export default class ComponentFactory {
                 path = this.path;
             }
 
-            path = `${path}/${this.componentName}`;
+            path = `${path}/${capitalize(this.componentName)}`;
 
             this.buildTestFiles(path);
 
             this.buildComponentFiles(path);
 
-            console.log(chalk.green(`Component ${this.componentName} created successfully`));
+            console.log(chalk.green(`Component ${capitalize(this.componentName)} created successfully`));
         } catch(error) {
             console.log(chalk.red(`Falha ao criar o componente ${this.componentName} \n ${error}`));
         }
@@ -49,7 +50,7 @@ export default class ComponentFactory {
 
         const content = this.buildTestContent();
 
-        this.fileFactory.createFile(this.componentName, content, 'test.tsx', testPath);
+        this.fileFactory.createFile(capitalize(this.componentName), content, 'test.tsx', testPath);
     }
 
     private buildTestContent() {
@@ -60,7 +61,7 @@ export default class ComponentFactory {
         const componentContent = this.buildComponentContent();
         const indexContent = this.buildIndexContent();
 
-        this.fileFactory.createFile(this.componentName, componentContent, 'tsx', path);
+        this.fileFactory.createFile(capitalize(this.componentName), componentContent, 'tsx', path);
         this.fileFactory.createFile('index', indexContent, 'ts', path);
     }
 
