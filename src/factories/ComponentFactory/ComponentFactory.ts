@@ -41,7 +41,7 @@ export default class ComponentFactory {
 
             console.log(chalk.green(`Component ${capitalize(this.componentName)} created successfully`));
         } catch(error) {
-            console.log(chalk.red(`Falha ao criar o componente ${this.componentName} \n ${error}`));
+            console.log(chalk.red(`Failed to create ${this.componentType} ${this.componentName} \n ${error}`));
         }
     }
 

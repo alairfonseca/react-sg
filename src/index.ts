@@ -1,6 +1,7 @@
-import yargs from 'yargs';
+import yargs, { describe } from 'yargs';
 import ComponentFactory from './factories/ComponentFactory';
 import { ComponentTypes } from './factories/ComponentFactory/types';
+import NewProjectFactory from './factories/NewProjectFactory/NewProjectFactory';
 
 const options = yargs.usage('g component <component name> or g container <container name>')
     .command('g [componentType] [componentName] [path]', 'Create a new component or container', (yargs) => {
@@ -19,17 +20,23 @@ const options = yargs.usage('g component <component name> or g container <contai
             default: '',
             describe: 'Folder path', type: 'string'
         });
-})
-.command('new [projectName]', 'Create a new project (create-react-app)', (yargs) => {
-    return yargs.usage('Usage: new <project name>');
-})
-.help()
-.argv;
+    })
+    .command('new [projectName]', 'Create a new project (create-react-app)', (yargs) => {
+        return yargs
+            .option('projectName', {
+                alias: 'n',
+                describe: 'Project name', type: 'string'
+            })
+            .demandOption(['projectName'], 'Please provide project name')
+            .usage('Usage: new <project name>');
+    })
+    .help()
+    .argv;
 
 const run = async () => {
     try {
         if (options._[0] == 'new') {
-            console.log('Creating a new React project...');
+            await newProject(options);
         } else if (options._[0] == 'g') {
             await buildComponent(options);
         }
@@ -42,6 +49,12 @@ const buildComponent = async ({ componentName, componentType, path } = options) 
     const componentFactory = new ComponentFactory(componentName, componentType as ComponentTypes, path);
 
     await componentFactory.buildComponent();
+}
+
+const newProject = async ({ projectName } = options) => {
+    const newProjectFactory = new NewProjectFactory(projectName);
+
+    await newProjectFactory.buildProject();
 }
 
 run();
