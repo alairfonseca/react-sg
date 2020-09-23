@@ -1,10 +1,10 @@
 import chalk from 'chalk';
 import FileFactory from '../FileFactory';
-import BaseComponent from '../templates/BaseComponent';
+import BaseComponent from '../../templates/BaseComponent';
 
 import { defaultPaths } from './constants';
 import { ComponentTypes } from './types';
-import { capitalize } from '../utils';
+import { capitalize } from '../../utils';
 
 export default class ComponentFactory {
     componentName: string;
@@ -53,16 +53,16 @@ export default class ComponentFactory {
         this.fileFactory.createFile(capitalize(this.componentName), content, 'test.tsx', testPath);
     }
 
-    private buildTestContent() {
-        return this.baseComponent.buildFile('test');
-    }
-
     private buildComponentFiles(path: string) {
         const componentContent = this.buildComponentContent();
         const indexContent = this.buildIndexContent();
 
         this.fileFactory.createFile(capitalize(this.componentName), componentContent, 'tsx', path);
         this.fileFactory.createFile('index', indexContent, 'ts', path);
+    }
+
+    private buildTestContent() {
+        return this.baseComponent.buildFile('test');
     }
 
     private buildComponentContent() {

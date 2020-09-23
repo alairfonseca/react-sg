@@ -1,6 +1,6 @@
 import fs from 'fs';
 import handlebars from 'handlebars';
-import { templatePaths } from '../../ComponentFactory/constants';
+import { templatePaths } from '../../factories/ComponentFactory/constants';
 import beautify from 'js-beautify'
 
 export default class BaseComponent {
