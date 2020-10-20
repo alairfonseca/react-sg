@@ -1,0 +1,56 @@
+import React, { FC, useState, useEffect, createContext, useContext } from "react";
+import { AuthContextData, User } from './types';
+import api from '../../services/api';
+import * as auth from '../../services/authService';
+
+const AuthContext = createContext<AuthContextData>({} as AuthContextData);
+
+  const AuthProvider: FC = ({ children }) => {
+  const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+      const loadStorageData = async () => {
+        const storagedUser = await localStorage.getItem('@{{ projectName }}:usuario');
+        const storagedToken = await localStorage.getItem('@{{ projectName }}:token');
+
+        if (storagedUser && storagedToken) {
+          setUser(JSON.parse(storagedUser));
+
+          api.defaults.headers.Authorization = `Baerer ${storagedToken}`;
+        }
+
+        setLoading(false);
+      }
+
+      loadStorageData();
+    }, []);
+
+    const signIn = async (email: string, password: string) => {
+      const response = await auth.signIn(email, password);
+
+      setUser(response.user);
+
+      api.defaults.headers.Authorization = `Baerer ${response.token}`;
+
+      await localStorage.setItem('@{{ projectName }}:usuario', JSON.stringify(response.user));
+      await localStorage.setItem('@{{ projectName }}:token', response.token);
+    }
+
+    const signOut = async () => {
+      await localStorage.clear();
+
+      setUser(null);
+    }
+
+    return (
+      <AuthContext.Provider value=\{{ signedIn: Boolean(user), user, signIn, signOut, loading  }}>
+        {children}
+      </AuthContext.Provider>
+    );
+  };
+
+  const useAuth = () => useContext(AuthContext);
+
+  export { AuthProvider, useAuth };
+  export default AuthContext;

@@ -1,15 +1,7 @@
 import fs from 'fs-extra';
 import chalk from 'chalk';
 
-import { ComponentTypes } from '../ComponentFactory/types';
-
 export default class FileFactory {
-    componentType: ComponentTypes
-
-    constructor(componentType: ComponentTypes, path?: string) {
-        this.componentType = componentType;
-    }
-
     public createFile(fileName: string, fileContent: string, extension: string, path: string) {
         try {
             this.createFolder(path);

@@ -18,7 +18,7 @@ export default class ComponentFactory {
         this.componentType = componentType;
         this.path = path;
         this.baseComponent = new BaseComponent(this.componentName);
-        this.fileFactory = new FileFactory(this.componentType as ComponentTypes, path);
+        this.fileFactory = new FileFactory();
     }
 
     public buildComponent() {
